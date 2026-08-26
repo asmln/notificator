@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class NotificationMessageTest {
     @Test
-    void notificationMessageCreation() {
+    void shouldCreateNotificationMessage() {
         var email = "aaa@bbb.cc";
         var phone = "+79999999999";
 

@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PhoneRecipientTest {
     @Test
-    void emailRecipientCreation() {
+    void shouldCreatePhoneRecipient() {
         var phone = "+79999999999";
         var recipient = new PhoneRecipient(phone);
         assertEquals(phone, recipient.value());

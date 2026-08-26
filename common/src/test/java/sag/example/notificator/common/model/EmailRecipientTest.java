@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class EmailRecipientTest {
     @Test
-    void emailRecipientCreation() {
+    void shouldCreateEmailRecipient() {
         var email = "aaa@bbb.cc";
         var recipient = new EmailRecipient(email);
         assertEquals(email, recipient.value());
