@@ -1,7 +1,5 @@
 plugins {
     java
-    id("org.springframework.boot")
-    id("io.spring.dependency-management")
 }
 
 group = "sag.example"
@@ -12,9 +10,8 @@ repositories {
 }
 
 dependencies {
-    implementation("com.fasterxml.jackson.core:jackson-annotations")
+    implementation("com.fasterxml.jackson.core:jackson-annotations:2.21")
 
     testImplementation(platform("org.junit:junit-bom"))
     testImplementation("org.junit.jupiter:junit-jupiter")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
