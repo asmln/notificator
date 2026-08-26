@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: notification-service
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      # Ключ сообщения отправляем как строку
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      # Сообщение сериализуется в JSON с помощью Spring Kafka
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: false
+
+logging:
+  level:
+    org.apache.kafka.clients: WARN
+    org.apache.kafka.common.utils.AppInfoParser: ERROR
