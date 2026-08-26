@@ -1,4 +1,4 @@
-package sag.example.notificator.model;
+package sag.example.notificator.common.model;
 
 import org.junit.jupiter.api.Test;
 

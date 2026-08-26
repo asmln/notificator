@@ -1,4 +1,4 @@
-package sag.example.notificator.model;
+package sag.example.notificator.common.model;
 
 public record EmailRecipient(String value) implements Recipient {
     public EmailRecipient {
