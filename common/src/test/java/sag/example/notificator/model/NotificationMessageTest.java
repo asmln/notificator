@@ -2,6 +2,8 @@ package sag.example.notificator.model;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class NotificationMessageTest {
@@ -11,6 +13,7 @@ class NotificationMessageTest {
         var phone = "+79999999999";
 
         var messageEmail = NotificationMessage.email(
+                UUID.randomUUID(),
                 new EmailRecipient(email),
                 "subj",
                 "test"
@@ -20,6 +23,7 @@ class NotificationMessageTest {
         assertThrows(
                 IllegalArgumentException.class,
                 () -> NotificationMessage.email(
+                        UUID.randomUUID(),
                         new EmailRecipient(email),
                         "",
                         ""
@@ -27,6 +31,7 @@ class NotificationMessageTest {
         );
 
         var messagePhone = NotificationMessage.sms(
+                UUID.randomUUID(),
                 new PhoneRecipient(phone),
                 "test"
         );
@@ -35,6 +40,7 @@ class NotificationMessageTest {
         assertThrows(
                 IllegalArgumentException.class,
                 () -> NotificationMessage.sms(
+                        UUID.randomUUID(),
                         new PhoneRecipient(phone),
                         ""
                 )
