@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: gateway-service
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      # Идентификатор группы потребителей
+      group-id: gateway-group
+      # Начинать чтение с начала топика, если группа новая
+      auto-offset-reset: earliest
+      # Ключ читаем как строку
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      # Для сообщения используем JsonDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "sag.example.notificator.common.model"
+        spring.json.value.default.type: "sag.example.notificator.common.model.NotificationMessage"
+
+app:
+  kafka:
+    topic:
+      notification: "notifications-topic"

@@ -1,5 +1,7 @@
 plugins {
     java
+    id("org.springframework.boot")
+    id("io.spring.dependency-management")
 }
 
 group = "sag.example"
@@ -10,7 +12,12 @@ repositories {
 }
 
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:6.1.3"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    implementation(project(":common"))
+    implementation("org.springframework.boot:spring-boot-starter")
+    implementation("org.springframework.boot:spring-boot-starter-kafka")
+    implementation("org.springframework.boot:spring-boot-starter-json")
+    implementation("com.fasterxml.jackson.core:jackson-databind")
+
+    testImplementation("org.springframework.kafka:spring-kafka-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
