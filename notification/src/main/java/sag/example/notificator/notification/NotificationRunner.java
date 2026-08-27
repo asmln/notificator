@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import sag.example.notificator.common.model.EmailRecipient;
 import sag.example.notificator.common.model.NotificationMessage;
 import sag.example.notificator.common.model.PhoneRecipient;
+import sag.example.notificator.notification.publisher.NotificationPublisher;
 
 import java.util.UUID;
 

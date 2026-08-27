@@ -1,10 +1,10 @@
 package sag.example.notificator.notification;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ActiveProfiles;
 import sag.example.notificator.common.model.EmailRecipient;
 import sag.example.notificator.common.model.NotificationMessage;
-import sag.example.notificator.notification.config.KafkaConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -18,6 +18,7 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.test.EmbeddedKafkaBroker;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
+import sag.example.notificator.notification.publisher.NotificationPublisher;
 
 import java.time.Duration;
 import java.util.Collections;
@@ -33,6 +34,9 @@ import static org.junit.jupiter.api.Assertions.*;
         controlledShutdown = true
 )
 class NotificationPublisherTest {
+
+    @Value("${app.kafka.topic.notification}")
+    private String topicName;
 
     @Autowired
     private EmbeddedKafkaBroker embeddedKafkaBroker;
@@ -59,7 +63,7 @@ class NotificationPublisherTest {
 
         testConsumer = consumerFactory.createConsumer();
         // Подписываемся на наш топик уведомлений
-        testConsumer.subscribe(Collections.singleton(KafkaConfig.NOTIFICATIONS_TOPIC));
+        testConsumer.subscribe(Collections.singleton(topicName));
     }
 
     @AfterEach
@@ -87,7 +91,7 @@ class NotificationPublisherTest {
         );
         var receivedRecord = KafkaTestUtils.getSingleRecord(
                 testConsumer,
-                KafkaConfig.NOTIFICATIONS_TOPIC,
+                topicName,
                 Duration.ofSeconds(5)
         );
         assertNotNull(receivedRecord);
