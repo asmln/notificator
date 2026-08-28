@@ -33,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.*;
         partitions = 1,
         controlledShutdown = true
 )
-class NotificationPublisherTest {
+class NotificationPublisherIT {
 
     @Value("${app.kafka.topic.notification}")
     private String topicName;
