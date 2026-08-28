@@ -66,7 +66,7 @@ class NotificationConsumerIT {
     }
 
     @Test
-    void shouldReceiveAndProcessSmsMessageSuccessfully() {
+    void shouldReceiveAndProcessSmsMessage() {
         UUID userId = UUID.randomUUID();
         String phoneNumber = "+79990000000";
         String content = "Проверка обработки Phone";
