@@ -18,6 +18,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-json")
     implementation("com.fasterxml.jackson.core:jackson-databind")
 
+    testImplementation("org.mockito:mockito-junit-jupiter:5.23.0")
     testImplementation("org.springframework.kafka:spring-kafka-test")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
