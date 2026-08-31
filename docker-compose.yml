@@ -2,20 +2,29 @@ services:
   kafka:
     image: apache/kafka:latest
     container_name: kafka-broker
+    # Проброс портов ХОСТ:КОНТЕЙНЕР
     ports:
       - "9092:9092"
     environment:
       # Настройки KRaft
+      # ID брокера в кластере
       KAFKA_NODE_ID: 1
+      # Роли этой ноды: и брокер и контроллер, который управляет кластером
       KAFKA_PROCESS_ROLES: 'broker,controller'
+      # Голосующие за нового лидера - в этом случае власть в одних руках
       KAFKA_CONTROLLER_QUORUM_VOTERS: '1@127.0.0.1:9093'
       # Слушатели: 9092 для внешнего подключения (нашего Java-кода), 9093 для KRaft
       KAFKA_LISTENERS: 'PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093'
+      # Адрес для клиента, чтобы он туда запросы слал
       KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://localhost:9092'
+      # Имя для контроллера (из маппинга ниже)
       KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
+      # Связь имён и протоколов (PLAINTEXT - незашифрованный траффик)
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT'
       # Автоматически создавать топики при первой отправке сообщений
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+      # Фактор репликации для офсетов
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      # Настройки для транзакций
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
