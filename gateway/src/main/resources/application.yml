@@ -8,6 +8,8 @@ spring:
       group-id: gateway-group
       # Начинать чтение с начала топика, если группа новая
       auto-offset-reset: earliest
+      # Отключение авто-комита
+      enable-auto-commit: false
       # Ключ читаем как строку
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       # Для сообщения используем JsonDeserializer
@@ -15,6 +17,10 @@ spring:
       properties:
         spring.json.trusted.packages: "sag.example.notificator.common.model"
         spring.json.value.default.type: "sag.example.notificator.common.model.NotificationMessage"
+    listener:
+      # Включаем ручное подтверждение
+      # Доступные значения: manual, manual_immediate, record, batch
+      ack-mode: manual
 
 app:
   kafka:
