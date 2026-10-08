@@ -1,6 +1,7 @@
 package sag.example.notificator.notification;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ActiveProfiles;
 import sag.example.notificator.common.model.EmailRecipient;
@@ -76,14 +77,11 @@ class NotificationPublisherIT {
     @Test
     void shouldSerializeAndSendEmailNotification() throws JsonProcessingException {
         var userId = UUID.randomUUID();
-        var emailAddress = "aaa@bbb.com";
-        var subject = "Тестовая тема";
-        var content = "Проверка интеграции";
         var notification = NotificationMessage.email(
                 userId,
-                new EmailRecipient(emailAddress),
-                subject,
-                content
+                new EmailRecipient("aaa@bbb.com"),
+                "Тестовая тема",
+                "Проверка интеграции"
         );
         notificationPublisher.sendToQueue(
                 notification.userId().toString(),
@@ -94,15 +92,13 @@ class NotificationPublisherIT {
                 topicName,
                 Duration.ofSeconds(5)
         );
-        assertNotNull(receivedRecord);
-        assertEquals(receivedRecord.key(), userId.toString());
+        assertEquals(userId.toString(), receivedRecord.key());
 
-        String rawJson = receivedRecord.value();
-        NotificationMessage deserializedMessage = objectMapper.readValue(rawJson, NotificationMessage.class);
+        JsonNode json = objectMapper.readTree(receivedRecord.value());
+        assertEquals(userId.toString(), json.get("userId").asText());
+        assertEquals("Тестовая тема", json.get("subject").asText());
 
-        assertInstanceOf(EmailRecipient.class, deserializedMessage.recipient());
-        assertEquals(emailAddress, deserializedMessage.recipient().value());
-        assertEquals(subject, deserializedMessage.subject());
-        assertEquals(content, deserializedMessage.content());
+        NotificationMessage deserializedMessage = objectMapper.readValue(receivedRecord.value(), NotificationMessage.class);
+        assertEquals(notification, deserializedMessage);
     }
 }
